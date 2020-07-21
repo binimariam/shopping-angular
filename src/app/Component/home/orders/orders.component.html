@@ -1,0 +1,77 @@
+<app-menu></app-menu>
+<div class="container">
+  <br>
+  <div class="col">
+    <div class="col-9 align-left" *ngFor="let order of orderlist">
+
+      <div class="card shadow p-3 mb-5 bg-white rounded">
+        <div class="card-body">
+          <h5>Order Details</h5>
+          <div class="row">
+            <div class="col" *ngFor="let buf of order.products">
+              <div class="col">
+
+                <p class="card-title"> {{buf.productName}}</p>
+                <p class="card-text"> Price : {{buf.price  | currency:'USD'}}</p>
+                <p class="card-text">Quantity : {{buf.quantity}}</p>
+              </div>
+            </div>
+          </div>
+          <br>
+
+          <div>
+            <p class="card-text"><b>Status:</b> {{order.orderStatus}}</p>
+          </div>
+          <div>
+            <p class="card-text"><b>Total Sum:</b> {{order.totalCost}}</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+<!-- <app-menu></app-menu>
+<div class="container">
+  <br>
+  <table id="cart" class="table table-hover table-condensed table-borderless">
+    <div class="col-6 align-left" *ngFor="let order of orderlist">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tr *ngFor="let buf of order.products">
+      <td>
+        {{buf.productname}}
+      </td>
+      <td>{{buf.price}}</td>
+      <td>
+
+        <div class="row">
+          <div class="col-6">
+            <input type="number" value="{{buf.quantity}}" #quant>
+            <input type="hidden" value="{{cart.cartId}}" #prod>
+          </div>
+        </div>
+      </td>
+      <td>
+        {{cart.quantity*cart.price}}
+
+      </td>
+      
+    </tr>
+ 
+<div><p class="card-text"><b>Status:</b> {{order.orderStatus}}</p></div>
+</div>
+</table> -->

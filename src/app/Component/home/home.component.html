@@ -1,0 +1,9 @@
+<app-menu></app-menu>
+<div class="container">
+  <br>
+  <div class="row">
+    <div class="col-3 align-left" *ngFor="let product of products">
+      <app-product [product]="product" (productAddToCart)="addToCart($event)"></app-product>
+    </div>
+  </div>
+</div>

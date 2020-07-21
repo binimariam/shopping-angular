@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "shopping"
+    }
+  },
+  "defaultProject": "shopping",
+  "cli": {
+    "analytics": false
+  }
 }
