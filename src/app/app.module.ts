@@ -16,6 +16,19 @@ import { CartItemComponent } from './Component/home/cart-item/cart-item.componen
 import { ProductComponent } from './Component/home/product/product.component';
 import { CommonModule } from '@angular/common';
 import { OrdersComponent } from './Component/home/orders/orders.component';
+// import { ConfirmationPopoverModule} from 'angular-confirmation-popover'
+// import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import 'hammerjs';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDialogModule, MatDialogConfig, MatDialog} from '@angular/material/dialog';
+import { NgbModalModule, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { DialogTemplateComponent } from './Component/dialog-template/dialog-template.component';
+
+//import {MdInputModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -30,6 +43,7 @@ import { OrdersComponent } from './Component/home/orders/orders.component';
     CartItemComponent,
     ProductComponent,
     OrdersComponent,
+   DialogTemplateComponent,
 
   ],
   imports: [
@@ -39,9 +53,23 @@ import { OrdersComponent } from './Component/home/orders/orders.component';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+   BrowserAnimationsModule,
+   MatDialogModule,
+    // NgbModalModule,
+    // NgbModal,
+   //NgModule,
+   NgbModule,
+  MatButtonModule,
+  MatIconModule,
+  MatDialogModule,
+  ImageCropperModule,
+  Ng2SearchPipeModule,
+  CommonModule 
+
     
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [  MatDialogConfig, MatDialog],
 })
 export class AppModule { }

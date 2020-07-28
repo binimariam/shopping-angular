@@ -4,6 +4,7 @@ export class Order {
     orderStatus: string;
     products: bufcart[];
     totalCost: any;
+    orderDate: any
 }
 
 class bufcart {

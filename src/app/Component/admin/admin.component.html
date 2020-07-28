@@ -6,8 +6,10 @@
                         <button class="mybtn btn btn-secondary" (click)="hide()" *ngIf="showAdd">Click to hide</button>
                 </div>
         </div>
-        <form class="form-horizontal shadow p-3 mb-5 bg-white rounded " #f="ngForm" (ngSubmit)="f.form.valid && addProd(quan,price,prodname,image)"
-                *ngIf="showAdd">
+        <small class="text-danger" >{{msg}}</small>
+        <form class="form-horizontal shadow p-3 mb-5 bg-white rounded " #f="ngForm"
+        
+                (ngSubmit)="f.form.valid && addProd(quan,price,prodname,image)" *ngIf="showAdd">
                 <div class="row">
                         <div class="col-6">
                                 <div class="form-group">
@@ -22,18 +24,49 @@
                                         <input type="text" class="form-control" placeholder="Price" name="price" #price
                                                 ngModel>
                                 </div>
-                                <div class="form-group">
+
+                                <!-- <div class="form-group">
                                         <input type="file" class="form-control" placeholder="Product Picture" #image
                                                 accept="image/*" name="image"
                                                 (change)="handleFileInput($event.target.files)">
-                                </div>
+                                </div> -->
+
+<!-- 
+                                <input type="file" accept="image/*" (change)="imageChangedEvent = $event" />
+                                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                                        [aspectRatio]="1" [resizeToWidth]="128" format="png"
+                                        (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded($event)"
+                                        (loadImageFailed)="loadImageFailed($event)"></image-cropper>
+
+                                <div class="img-container" *ngIf="imageChangedEvent === undefined">
+                                        <img [src]="model">
+                                </div> -->
+
+
+                                <input type="file" class="form-control" #image
+                                accept="image/*" name="image" (change)="fileChangeEvent($event.target.files)" />
                         </div>
-                        <div class="col-6">
+                </div>
+                <div class="row" style="margin-top: 5%;">
+                        <div class="text-center col-md-8">
+                                <h5>Crop Image</h5>
+                                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                                        [aspectRatio]="4 / 4" [resizeToWidth]="256" format="png"
+                                        (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                                        (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
+                                </image-cropper>
+                        </div>
+                        <div class="text-center col-md-4">
+                                <h5>Preview</h5>
+                                <img [src]="croppedImage" />
+                        </div>
+                        <!-- <div class="col-6">
                                 <h4 class="text-center">Image preview</h4>
                                 <img [src]="imageUrl" style="width:400px;height: 300px;">
+                        </div> -->
 
-                        </div>
-                        
+
+
                 </div>
                 <div class="row">
                         <div class="col-6">
@@ -52,11 +85,16 @@
                                         <input type="hidden" value={{product.productid}} #prdid>
                                         <div class="row">
                                                 <div class="col-6">
-                                                        <button class="btn btn-secondary" (click)="edit(prdid)">Edit</button>
+                                                        <button class="btn btn-info" (click)="edit(prdid)">
+                                                                <mat-icon>edit</mat-icon>
+                                                        </button>
                                                 </div>
+
+
                                                 <div class="col-6">
-                                                        <button class="btn btn-danger"
-                                                                (click)="delProd(prdid)">Remove</button>
+                                                        <button class="btn btn-danger" (click)="deleteconfirm(prdid)">
+                                                                <mat-icon>delete</mat-icon>
+                                                        </button>
                                                 </div>
                                         </div>
                                 </div>

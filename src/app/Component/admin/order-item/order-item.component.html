@@ -1,5 +1,5 @@
 <app-menu></app-menu>
-<div class="container">
+<!-- <div class="container">
     <br>
     <div class="row">
         <div class="col-6 align-left" *ngFor="let order of orderlist">
@@ -29,5 +29,58 @@
                 </div>
             </div>
         </div>
+    </div>
+</div> -->
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="search-hero">
+            <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off"
+                placeholder="&#61442;  Search here">
+        </div>
+        <table class="table table-striped" style="text-align: center;">
+            <thead>
+                <tr>
+                    <th scope="col">Order Id</th>
+                    <th scope="col">Order By</th>
+                    <th scope="col">Order Status</th>
+                    <th scope="col">Order Date</th>
+                    <th scope="col">View</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let order of orderlist | filter:searchText">
+
+                    <td>
+                        {{order.orderId}}
+                    </td>
+                    <td>
+                        {{order.orderBy}}
+                    </td>
+                    <td>
+                        {{order.orderStatus}}
+                    </td>
+                    <td>
+                        {{order.orderDate | date}}
+                    </td>
+             <td>
+                        <button type="button" class="btn btn-info btn-sm" (click)="viewdetails(order)">View Details</button>
+                        <!-- <button class="btn btn-info btn-sm" mat-button (click)="view(order.orderId)">View</button> -->
+                        <!-- <div class="col" *ngFor="let buf of order.products">
+                            <p class="card-title"> {{buf.productName}}</p>
+                            <p class="card-text"> Price : {{buf.price  | currency:'USD'}}</p>
+                            <p class="card-text">Quantity: {{buf.quantity}}</p>
+                        </div> -->
+                        <!-- <div class="row-6">
+                            <button class="btn btn-secondary" (click)="approve(order.orderId)">Approve</button>
+                            <button style="margin-left: 10px;" class="btn btn-secondary" (click)="decline(order.orderId)">Decline</button>
+                        </div> -->
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

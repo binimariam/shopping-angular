@@ -125,7 +125,7 @@ export class ApiService {
     return this.http.get<any>(this.DEL_PRD_API + "?productId=" + prodid, { headers: myheader })
   }
 
-  // delete Product for Logged Admin User
+  
   getOrders(auth: string) {
     const myheader = new HttpHeaders().set('AUTH_TOKEN', auth);
     return this.http.get<any>(this.ORD_API, { headers: myheader })
@@ -139,7 +139,7 @@ export class ApiService {
     return this.http.post<any>(this.UPD_ORD_API, formData, { headers: myheader })
   }
 
-  // delete Product for Logged Admin User
+ 
   upOrders(auth: string, prodid: number) {
     const myheader = new HttpHeaders().set('AUTH_TOKEN', auth);
     return this.http.get<any>(this.DEL_PRD_API + "?productid=" + prodid, { headers: myheader })

@@ -9,6 +9,8 @@ import { AuthguardService } from './Service/authguard.service';
 import { OrderItemComponent } from './Component/admin/order-item/order-item.component';
 import { EditItemComponent } from './Component/admin/edit-item/edit-item.component';
 import { OrdersComponent } from './Component/home/orders/orders.component';
+import { DialogTemplateComponent } from './Component/dialog-template/dialog-template.component';
+import { MenuComponent } from './Component/menu/menu.component';
 
 
 
@@ -21,8 +23,10 @@ const routes: Routes = [
   {path:'home/cart',component: CartItemComponent,canActivate:[AuthguardService]},
   {path:'admin/edit',component: EditItemComponent,canActivate:[AuthguardService]},
   {path:'admin/order',component: OrderItemComponent,canActivate:[AuthguardService]},
-  {path:'home/orders',component: OrdersComponent,canActivate:[AuthguardService]}
-  
+  {path:'home/orders',component: OrdersComponent,canActivate:[AuthguardService]},
+  {path:'menu', component:MenuComponent  },
+  {path:'**',redirectTo:'login',pathMatch:'full'},
+   
 ];
 
 @NgModule({
@@ -30,3 +34,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+

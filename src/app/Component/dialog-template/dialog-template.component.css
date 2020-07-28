@@ -1,0 +1,53 @@
+* {
+    margin: 0;
+}
+html, body {
+    position: relative;
+    margin: 0;
+    padding-bottom: 6rem;
+    height: 100%;
+}
+
+.lesson-card {
+    margin-top: 20px;
+}
+
+.lesson-col{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.container.create-container {
+    margin-top:2%;
+}
+
+.btn-lesson{
+    background-color: #5fa044;
+    color: #fff;
+    width: 100%;
+
+}
+.create-header{
+    background-color: #5fa044 !important;
+    color: #fff;
+    margin: 2% 0;
+    width: 100%;
+    padding: 1%;
+    text-align: center;
+}
+.create-form{
+    padding: 2%;
+    margin-bottom: 2%;
+}
+.lesson-page{
+    width: 100%;
+}
+
+
+@media (min-width: 576px){
+
+.modal-dialog {
+    max-width: 800px !important; 
+     margin: 30px auto; 
+}
+}

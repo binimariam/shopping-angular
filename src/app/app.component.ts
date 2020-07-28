@@ -24,5 +24,7 @@ export class AppComponent implements OnInit {
     } else if (this.auth.isAuthenticated == null) {
       this.router.navigate(["/login"]);
     }
+  
   }
 }
+

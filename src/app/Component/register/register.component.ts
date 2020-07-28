@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   public registerForm: any;
-  msg= ""
+  msg = ""
 
   constructor(private apiService: ApiService,
     private router: Router,
@@ -28,13 +28,13 @@ export class RegisterComponent implements OnInit {
       role: 'user'
     });
   }
-  register(): void {
 
+  register(): void {
     this.apiService.register(this.registerForm.value).
       subscribe(res => {
         if (res.status == "400") {
-          console.log("Details cannot be empty");
-          this.msg = "Enter valid details"
+          console.log("messs" + res.message);
+          this.msg = res.message
         } else {
           this.router.navigate(['/login']);
         }

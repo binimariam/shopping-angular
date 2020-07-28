@@ -23,9 +23,13 @@ export class OrdersComponent implements OnInit {
 
   viewOrderList() {
     this.api.viewOrders(this.auth).subscribe(res => {
+      console.log("response " + res)
       this.orderlist = res.orderlist
 
-      console.log(this.orderlist);
+      console.log("list user  " + this.orderlist.totalCost);
+      console.log("list user1  " + this.orderlist.orderBy);
+      console.log("list user2  " + this.orderlist.orderId);
+      console.log("list user3  " + this.orderlist.orderStatus);
 
     });
   }
