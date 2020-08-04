@@ -17,12 +17,12 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     if (this.auth.isAuthenticated != null) {
       if (this.auth.isAuthenticated && this.auth.getAuthType() == "user") {
-        this.router.navigate(["/home"]);
+        // this.router.navigate(['home']);
       } else if (this.auth.isAuthenticated && this.auth.getAuthType() == "admin") {
-        this.router.navigate(["/admin"]);
+        // this.router.navigate(['admin']);
       }
     } else if (this.auth.isAuthenticated == null) {
-      this.router.navigate(["/login"]);
+      this.router.navigate(['login']);
     }
   
   }

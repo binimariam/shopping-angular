@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { User } from '../Model/user';
 import { Product } from '../Model/product';
+import { Order } from '../Model/Order';
 
 
 
@@ -26,6 +27,10 @@ export class ApiService {
   private UPD_PRD_API = "http://localhost:8080/admin/updateProducts";
   private ORD_API = "http://localhost:8080/admin/viewOrders";
   private UPD_ORD_API = "http://localhost:8080/admin/updateOrder";
+  private VIEW_API = "http://localhost:8080/admin/viewOrder";
+  private VIEWPRODUCT_API = "http://localhost:8080/user/getProduct";
+
+
 
   constructor(private http: HttpClient) {
 
@@ -125,6 +130,16 @@ export class ApiService {
     return this.http.get<any>(this.DEL_PRD_API + "?productId=" + prodid, { headers: myheader })
   }
 
+  viewOrder(auth: string,orderId: number) {
+    const myheader = new HttpHeaders().set('AUTH_TOKEN', auth);
+    return this.http.get<any>(this.VIEW_API + "?orderId=" + orderId, { headers: myheader })
+  }
+
+  getProduct (auth: string,productId: number) {
+    const myheader = new HttpHeaders().set('AUTH_TOKEN', auth);
+    return this.http.get<any>(this.VIEWPRODUCT_API + "?productId=" + productId, { headers: myheader })
+  }
+
   
   getOrders(auth: string) {
     const myheader = new HttpHeaders().set('AUTH_TOKEN', auth);
@@ -163,7 +178,7 @@ export class ApiService {
 // Authentication Methods 
 
 public isAuthenticated(): boolean {
-  return this.getToken() !== null;
+  return (this.getToken() !== null);
 }
 
 storeToken(token: string, auth_type: string) {
@@ -189,4 +204,29 @@ removeToken() {
   return localStorage.removeItem("auth_token")
 }
 
+
+
+private baseUrl = 'http://localhost:8080/admin';
+private bUrl = 'http://localhost:8080/user';
+
+  upload(file: File,productId): Observable<HttpEvent<any>> {
+    const formData: FormData = new FormData();
+
+    formData.append('file', file);
+    formData.append('productId', productId);
+
+    const req = new HttpRequest('POST', `${this.baseUrl}/upload`, formData, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+
+    return this.http.request(req);
+  }
+
+  getFiles(): Observable<any> {
+    return this.http.get(`${this.bUrl}/files`);
+  }
+  getFile(productId): Observable<any> {
+    return this.http.get(`${this.bUrl}/file/${productId}`,productId);
+  }
 }

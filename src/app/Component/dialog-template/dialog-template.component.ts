@@ -4,7 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Order } from 'src/app/Model/Order';
 import { ApiService } from 'src/app/Service/api.service';
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'dialog-template',
@@ -14,21 +14,23 @@ import { Router } from '@angular/router';
 export class DialogTemplateComponent implements OnInit  {
 
 
-  constructor(public activeModal: NgbActiveModal,private api: ApiService,private router:Router) { }
+  constructor(public activeModal: NgbActiveModal,private api: ApiService,private route:Router,private activatedRoute:ActivatedRoute) { }
   @Input() order: Order;
   orderlist: Order;
   auth: string;
-xx:any
+  
+
   ngOnInit() {
     this.auth = this.api.getToken();
-    console.log("token is" + this.auth)
+   
     this.getOrderList();
     console.log("order list is" + this.getOrderList())
+
   }
   getOrderList() {
     this.api.getOrders(this.auth).subscribe(res => {
       this.orderlist = res.orderlist;
-      console.log("list " +this.orderlist);
+      console.log("listsssssssssssss " +this.orderlist);
     });
    
   }
@@ -40,10 +42,20 @@ xx:any
     }
     this.api.update(this.auth, order).subscribe(res => {
 console.log("seeee" + res.status)
-      this.getOrderList();
-      console.log("log" + this.getOrderList())
+
+// console.log("ecccccc" + this.orderid)
+      this.auth = this.api.getToken();
+
+      this.api.viewOrder(this.auth, this.order.orderId).subscribe(res => {
+        this.order = res
+        console.log("ecccccc" + this.order.orderId)
+       this.route.navigate(['admin'])
+      })
+      console.log("logerrrr" + this.getOrderList())
     });
     Swal.fire("Approved")
+   
+   
   }
 
   decline(orderid) {

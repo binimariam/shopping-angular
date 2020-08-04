@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
         }
       );
     }
-    localStorage.getItem("valuex");
+ 
   }
 
 
@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
       this.cartlist.forEach(value => {
         this.totalSum = this.totalSum + (value.quantity * value.price);
       });
-this.x = this.cartlist.length
+//this.x = this.cartlist.length
 this.route.navigate(['/home'])
     });
   }
@@ -55,7 +55,6 @@ this.route.navigate(['/home'])
          })
     this.orderItem()
   
-    //localStorage.setItem("value", this.x);
-    //window.location.reload();
+ 
   }
 }

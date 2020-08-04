@@ -27,15 +27,16 @@ export class ProductComponent implements OnInit {
   message: string
   totalSum: number = 0;
   products: Product[] = [];
-x: any;
+
 
   @Input() public product;
 
   @Output() productAddToCart: EventEmitter<Product> = new EventEmitter<Product>();
-  constructor(private http: HttpClient, public api: ApiService, public router: Router, public location:Location) { }
+  constructor(private http: HttpClient, public api: ApiService, public router: Router) { }
 
   ngOnInit() {
     this.getData();
+    console.log("ggggggggggggg"+ this.product.productId)
   }
 
 
@@ -49,8 +50,6 @@ x: any;
 
       })
       console.log("oooo" + this.cart)
-      this.x = this.cartlist.length
-localStorage.setItem("value", this.x);
     });
   }
 
@@ -66,7 +65,7 @@ localStorage.setItem("value", this.x);
   addToCart() {
     this.productAddToCart.emit(this.product);
     this.router.navigate(['/menu']);
-    this.router.routerState
+   // this.router.routerState
   Swal.fire("Product added to cart");
   }
 

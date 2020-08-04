@@ -21,13 +21,7 @@
                                         <input type="file" class="form-control" placeholder="Product Picture" #image
                                                 accept="image/*" name="image"
                                                 (change)="handleFileInput($event.target.files)">
-                                        <!-- <image-cropper [imageChangedEvent]="imageChangedEvent"
-                                                [maintainAspectRatio]="true" [aspectRatio]="4 / 3" 
-                                                (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
-                                                (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
-                                        </image-cropper>
-
-                                        <img [src]="croppedImage" /> -->
+                                    
                                 </div>
                         </div>
                         <div class="col-3">
@@ -35,6 +29,7 @@
                                 <img src="data:image/png;base64,{{product.image}}" style="width:70%;height: 60%;">
 
                         </div>
+                        
                         <div class="col-3">
                                 <p><b>New Image</b></p>
                                 <img [src]="imageUrl" style="width:70%;height: 60%;">

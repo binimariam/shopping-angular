@@ -1,0 +1,36 @@
+<app-menu></app-menu>
+
+<!-- <div class="card">
+    <div class="card-header">List of Files</div>
+    <ul
+      class="list-group list-group-flush"
+      *ngFor="let file of fileInfos | async"
+    >
+      <li class="list-group-item">
+        <a href="{{ file.url }}">{{ file.name }}</a>
+      </li>
+    </ul>
+  </div>
+  <p> {{x}}</p> -->
+
+  <div class="container">
+  <div class="row">
+    
+        <div class="col-3 align-left" *ngFor="let file of files">
+            <!-- <div class="card shadow bg-white rounded"> -->
+                    <div class="card-body">
+ 
+                <div><img src="data:image/png;base64,{{file.data}}" class="img-responsive"
+                                                height="150px" width="200px" alt="Image"></div> 
+          
+      
+    </div>
+    
+    
+  </div>
+  </div>
+  </div>
+ 
+  
+
+ 

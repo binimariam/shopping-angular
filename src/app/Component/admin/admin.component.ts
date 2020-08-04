@@ -1,14 +1,15 @@
 import { Component, OnInit, forwardRef } from '@angular/core';
 import { ApiService } from 'src/app/Service/api.service';
 import { Product } from 'src/app/Model/product';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
+
 import { NavigationExtras, Router } from '@angular/router';
-import { Route } from '@angular/compiler/src/core';
-import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+
 import Swal from 'sweetalert2'
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { HttpEvent, HttpRequest, HttpClient, HttpEventType, HttpResponse } from '@angular/common/http';
+import { ImageFile } from 'src/app/Model/ImageFile';
 
 @Component({
   selector: 'app-admin',
@@ -18,13 +19,18 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 })
 export class AdminComponent implements OnInit {
 
+
+  files: Array<ImageFile>;
+  filesx: Array<ImageFile>;
   products: Product[] = [];
   fileToUpload: File = null;
   showAdd = false;
   auth: string;
-  imageUrl: string = "/assets/img/noimage.png";
+  imageUrl: string = "/assets/images/noimage.png";
+  croppedImage: string = "/assets/images/noimage.png";
 
-  constructor(private api: ApiService, private router: Router) { }
+
+  constructor(private api: ApiService, private router: Router, private http:HttpClient) { }
 
   ngOnInit() {
     if (this.api.isAuthenticated) {
@@ -34,10 +40,32 @@ export class AdminComponent implements OnInit {
           this.products = res.oblist;
         }
       );
+      this.fileInfos = this.api.getFiles();
     }
+    this.api.getFile(this.productId).subscribe(
+  
+      response => {
+        console.log("dfghj")
+        this.handleSuccessfulResponse(response)
+        console.log("dfghj" + response)
+      })
   }
 
+  handleSuccessfulResponse(response)
+  {
+    this.files = new Array<ImageFile>();
+    this.filesx = response;
+    for (const file of this.filesx) {
 
+      const xx = new ImageFile();
+      xx.id = file.id;
+      xx.productid = file.productid;
+      xx.data = file.data;
+      this.files.push(xx);
+      console.log("llll" + xx)
+    }
+    
+  }
   show() {
     this.showAdd = true;
   }
@@ -45,98 +73,90 @@ export class AdminComponent implements OnInit {
     this.showAdd = false;
   }
 
-  // onChange = (value: string) => { };
-  // onTouched: () => {};
-  // model: string;
+  urls = [];
+  onSelectFile(event) {
+    if (event.target.files && event.target.files[0]) {
+        var filesAmount = event.target.files.length;
+        for (let i = 0; i < filesAmount; i++) {
+                var reader = new FileReader();
 
-  // writeValue(value) {
-  //   this.model = value;
-  // }
-  // registerOnChange(fn) {
-  //   this.onChange = fn;
-  // }
-  // registerOnTouched(fn) {
-  //   this.onTouched = fn;
-  // }
+                reader.onload = (event:any) => {
+                  console.log(event.target.result);
+                   this.urls.push(event.target.result); 
+                }
 
-  // imageCropped(event: ImageCroppedEvent) {
-  //   this.model = event.base64;
-  //   this.onChange(this.model);
-  // }
+                reader.readAsDataURL(event.target.files[i]);
+        }
+    }
+  }
+  
 
-  // imageLoaded(e) {
 
-  // }
+productId =6;
+  selectedFiles: FileList;
+  currentFile: File;
+  progress = 0;
+  message = '';
 
-  // loadImageFailed() {
+  fileInfos: Observable<any>;
 
-  // }
+
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
+  }
+
+  upload() {
+    this.progress = 0;
+  this.productId =6;
+    this.currentFile = this.selectedFiles.item(0);
+    this.api.upload(this.currentFile,this.productId).subscribe(
+      event => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progress = Math.round(100 * event.loaded / event.total);
+        } else if (event instanceof HttpResponse) {
+          this.message = event.body.message;
+          this.fileInfos = this.api.getFiles();
+        }
+      },
+      err => {
+        this.progress = 0;
+        this.message = 'Could not upload the file!';
+        this.currentFile = undefined;
+      });
+  
+    this.selectedFiles = undefined;
+  }
+   
+
 
   msg: any;
-  imageChangedEvent: any = '';
-  croppedImage: any = '';
-
-  // fileChangeEvent(event: any): void {
-  //     this.imageChangedEvent = event;
-  // }
-
-  
-  fileChangeEvent(file: FileList) {
-    this.imageChangedEvent = event
+  handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
     var reader = new FileReader();
     reader.onload = (event: any) => {
-      this.imageChangedEvent = event;
+      this.imageUrl = event.target.result;
     }
     reader.readAsDataURL(this.fileToUpload);
-}
-
-
-
-  imageCropped(event: ImageCroppedEvent) {
-      this.croppedImage = event.base64;
   }
-  imageLoaded() {
-      // show cropper
-  }
-  cropperReady() {
-      // cropper ready
-  }
-  loadImageFailed() {
-      // show message
-  }
-
-
-
-
-  // handleFileInput(file: FileList) {
-  //   this.fileToUpload = file.item(0);
-  //   var reader = new FileReader();
-  //   reader.onload = (event: any) => {
-  //     this.imageUrl = event.target.result;
-  //   }
-  //   reader.readAsDataURL(this.fileToUpload);
-  // }
 
   addProd(quan, price, prodname, image) {
-    this.api.addProduct(this.auth, quan.value, price.value, prodname.value, this.fileToUpload).subscribe(res => {    
+    this.api.addProduct(this.auth, quan.value, price.value, prodname.value, this.fileToUpload).subscribe(res => {
       if (res.status == "200") {
+        
         this.products = res.oblist;
-      this.showAdd = false;
-      console.log("responseeee" + res)
-      Swal.fire('Added succesfully');
+        this.showAdd = false;
+        console.log("responseeee" + res)
+        Swal.fire('Added succesfully');
       }
-      else if (res.status == "400") 
-        {
-        console.log("eeeeeee" +res.message);
-        this.msg  = res.message
+      else if (res.status == "400") {
+        console.log("eeeeeee" + res.message);
+        this.msg = res.message
       }
-      else if (res.status = "500")
-      {
+      else if (res.status = "500") {
         console.log("500" + res.message)
       }
     });
-    
+
   }
 
   deleteconfirm(prodid) {
@@ -165,22 +185,21 @@ export class AdminComponent implements OnInit {
       }
     })
   }
-  delProd(prodid) {
 
+  delProd(prodid) {
     this.api.delProduct(this.auth, prodid.value).subscribe(res => {
       this.products = res.oblist;
     });
 
   }
+
   edit(prodid) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        "user": prodid.value
+        "product": prodid.value
       }
     };
     this.router.navigate(["admin/edit"], navigationExtras);
 
   }
-
-
 }

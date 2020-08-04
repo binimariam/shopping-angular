@@ -10,8 +10,9 @@
                                 <mat-icon>check_circle</mat-icon>
                         </div>
                 </div>
-                <img src="data:image/png;base64,{{product.image}}" class="img-responsive" height="150px" width="200px"
+                <img src="data:image/png;base64,{{product.image}}" [routerLink]="['/productdetails']"  class="img-responsive" height="150px" width="200px"
                         alt="Image">
+                      
                 <h5 class="card-title">Rs.{{product.price}}</h5>
                 <button class="btn btn-primary" style="text-align: right" (click)="addToCart()">Add to cart</button>
         </div>

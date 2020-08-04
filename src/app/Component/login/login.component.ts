@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/Service/api.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 
 @Component({
@@ -13,10 +13,12 @@ export class LoginComponent implements OnInit {
   public loginForm: any;
   error = false;
   msg = " ";
+returnUrl: string
+
 
   constructor(private apiService: ApiService,
     private router: Router,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute) {
     this.createForm();
   }
 
@@ -41,10 +43,12 @@ export class LoginComponent implements OnInit {
             subscribe(res => {
               if (res.status == "200") {
                 this.apiService.storeToken(res.auth_TOKEN, "admin");
+                // this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
+                // this.router.navigateByUrl(this.returnUrl);
                 this.router.navigate(['/admin']);
               } else {
                 this.msg = "Bad credentials"
-                //this.router.navigate(['/login']);
+               
               }
               this.error = false;
             },

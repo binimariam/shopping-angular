@@ -6,9 +6,8 @@
                         <button class="mybtn btn btn-secondary" (click)="hide()" *ngIf="showAdd">Click to hide</button>
                 </div>
         </div>
-        <small class="text-danger" >{{msg}}</small>
+        <small class="text-danger">{{msg}}</small>
         <form class="form-horizontal shadow p-3 mb-5 bg-white rounded " #f="ngForm"
-        
                 (ngSubmit)="f.form.valid && addProd(quan,price,prodname,image)" *ngIf="showAdd">
                 <div class="row">
                         <div class="col-6">
@@ -25,45 +24,73 @@
                                                 ngModel>
                                 </div>
 
-                                <!-- <div class="form-group">
+                                <div class="form-group">
                                         <input type="file" class="form-control" placeholder="Product Picture" #image
                                                 accept="image/*" name="image"
                                                 (change)="handleFileInput($event.target.files)">
-                                </div> -->
+                                </div>
+                                Add more photos
 
-<!-- 
-                                <input type="file" accept="image/*" (change)="imageChangedEvent = $event" />
-                                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
-                                        [aspectRatio]="1" [resizeToWidth]="128" format="png"
-                                        (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded($event)"
-                                        (loadImageFailed)="loadImageFailed($event)"></image-cropper>
+                                <!-- <img *ngFor='let url of urls'  [src]="url" height="200"> <br/>
 
-                                <div class="img-container" *ngIf="imageChangedEvent === undefined">
-                                        <img [src]="model">
-                                </div> -->
+                                <input type='file' (change)="onSelectFile($event)" multiple> -->
 
+                                <div *ngIf="currentFile" class="progress">
+                                        <div
+                                          class="progress-bar progress-bar-info progress-bar-striped"
+                                          role="progressbar"
+                                          attr.aria-valuenow="{{ progress }}"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                          [ngStyle]="{ width: progress + '%' }"
+                                        >
+                                          {{ progress }}%
+                                        </div>
+                                      </div>
+                                      
+                                      <label class="btn btn-default">
+                                        <input type="file" (change)="selectFile($event)" />
+                                      </label>
+                                      
+                                      <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">
+                                        Upload
+                                      </button>
+                                      
+                                      <div class="alert alert-light" role="alert">{{ message }}</div>
+                                      
+                                      <div class="card">
+                                        <div class="card-header">List of Files</div>
+                                        <!-- <ul
+                                          class="list-group list-group-flush"
+                                          *ngFor="let file of fileInfos | async"
+                                        > -->
+                                          <!-- <li class="list-group-item">
+                                            <a href="{{ file.url }}">{{ file.name }}</a>
+                                          </li> -->
+                                          
+                                            <!-- <li>  <img src="data:image/png;base64,{{file.data}}" class="img-responsive"
+                                              height="150px" width="200px" alt="Image"></li> -->
+                                              <div class="col-3 align-left" *ngFor="let file of files">
+                                                <!-- <div class="card shadow bg-white rounded"> -->
+                                                        <div class="card-body">
+                                     
+                                                    <div><img src="data:image/png;base64,{{file.data}}" class="img-responsive"
+                                                                                    height="150px" width="200px" alt="Image"></div> 
+                                              
+                                          
+                                        </div>
+                                        
+                                        
+                                      </div>
+                                        <!-- </ul> -->
+                                      </div>
+                                      
 
-                                <input type="file" class="form-control" #image
-                                accept="image/*" name="image" (change)="fileChangeEvent($event.target.files)" />
                         </div>
-                </div>
-                <div class="row" style="margin-top: 5%;">
-                        <div class="text-center col-md-8">
-                                <h5>Crop Image</h5>
-                                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
-                                        [aspectRatio]="4 / 4" [resizeToWidth]="256" format="png"
-                                        (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
-                                        (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
-                                </image-cropper>
-                        </div>
-                        <div class="text-center col-md-4">
-                                <h5>Preview</h5>
-                                <img [src]="croppedImage" />
-                        </div>
-                        <!-- <div class="col-6">
+                        <div class="col-6">
                                 <h4 class="text-center">Image preview</h4>
                                 <img [src]="imageUrl" style="width:400px;height: 300px;">
-                        </div> -->
+                        </div>
 
 
 
@@ -74,6 +101,9 @@
                         </div>
                 </div>
         </form>
+
+
+
         <hr>
         <div class="row">
                 <div class="col-3 align-left" *ngFor="let product of products">
@@ -83,16 +113,17 @@
                                         <img src="data:image/png;base64,{{product.image}}" class="img-responsive"
                                                 height="150px" width="200px" alt="Image">
                                         <input type="hidden" value={{product.productid}} #prdid>
+                                        <br> <br>
                                         <div class="row">
                                                 <div class="col-6">
-                                                        <button class="btn btn-info" (click)="edit(prdid)">
+                                                        <button class="btn btn-info btn-sm" (click)="edit(prdid)">
                                                                 <mat-icon>edit</mat-icon>
                                                         </button>
                                                 </div>
 
 
                                                 <div class="col-6">
-                                                        <button class="btn btn-danger" (click)="deleteconfirm(prdid)">
+                                                        <button class="btn btn-danger btn-sm" (click)="deleteconfirm(prdid)">
                                                                 <mat-icon>delete</mat-icon>
                                                         </button>
                                                 </div>

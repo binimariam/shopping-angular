@@ -103,7 +103,7 @@ export class CartItemComponent implements OnInit {
   place() {
     this.api.place(this.auth).subscribe(res => {
       this.cartlist = res.oblist;
-
+this.route.navigate(['menu']);
     });
     Swal.fire('Your order is placed successfully!!!')
     this.route.navigate(['/home']);

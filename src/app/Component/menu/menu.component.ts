@@ -35,8 +35,7 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.orderItem();
-    localStorage.getItem("value");
-  }
+    }
 
   orderItem() {
     this.authentication = this.auth.getToken();

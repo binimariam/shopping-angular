@@ -24,8 +24,8 @@ export class EditItemComponent implements OnInit {
   fileToUpload: File = null;
   auth: string;
   prodid: string;
-  imageUrl: string = "/assets/img/noimage.png";
- // croppedImage: any = '';
+  imageUrl: string = "/assets/images/noimage.png";
+
   constructor(private route: ActivatedRoute, private api: ApiService, private router: Router) {
     if (this.api.isAuthenticated) {
       this.auth = this.api.getToken();
@@ -44,7 +44,7 @@ export class EditItemComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      this.prodid = params["user"];
+      this.prodid = params["product"];
     });
   }
 
@@ -56,18 +56,7 @@ export class EditItemComponent implements OnInit {
     }
     reader.readAsDataURL(this.fileToUpload);
   }
-//   imageCropped(event: ImageCroppedEvent) {
-//     this.croppedImage = event.base64;
-// }
-// imageLoaded() {
-//     // show cropper
-// }
-// cropperReady() {
-//     // cropper ready
-// }
-// loadImageFailed() {
-//     // show message
-// }
+
 
   updateProd(quan, price, prodname, image) {
     this.api.updateProduct(this.auth, quan.value, price.value, prodname.value, this.fileToUpload, this.product.productid).subscribe(res => {
